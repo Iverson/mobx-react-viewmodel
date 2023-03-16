@@ -1,6 +1,6 @@
 {
   "name": "mobx-react-viewmodel",
-  "version": "0.1.0",
+  "version": "0.0.1",
   "license": "MIT",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -20,7 +20,9 @@
     "size": "size-limit",
     "analyze": "size-limit --why",
     "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook"
+    "build-storybook": "build-storybook",
+    "docs": "start-storybook --docs --no-manager-cache",
+    "build-docs": "build-storybook --docs"
   },
   "peerDependencies": {
     "mobx": ">=6",
@@ -29,24 +31,32 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "tsdx lint"
+      "pre-commit": "lint-staged"
     }
   },
+  "lint-staged": {
+    "*.ts*": [
+      "tsdx lint",
+      "prettier --write"
+    ]
+  },
   "author": "Alexey Krasman",
-  "module": "dist/mylib.esm.js",
+  "module": "dist/mobx-react-viewmodel.esm.js",
   "size-limit": [
     {
-      "path": "dist/mylib.cjs.production.min.js",
+      "path": "dist/mobx-react-viewmodel.cjs.production.min.js",
       "limit": "10 KB"
     },
     {
-      "path": "dist/mylib.esm.js",
+      "path": "dist/mobx-react-viewmodel.esm.js",
       "limit": "10 KB"
     }
   ],
   "devDependencies": {
     "@a110/storybook-expand-all": "^1.1.1",
     "@babel/core": "^7.21.0",
+    "@size-limit/esbuild": "^8.2.4",
+    "@size-limit/esbuild-why": "^8.2.4",
     "@size-limit/preset-small-lib": "^8.2.4",
     "@storybook/addon-actions": "^6.5.16",
     "@storybook/addon-essentials": "^6.5.16",

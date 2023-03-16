@@ -6,19 +6,17 @@ export type IViewModel<
   P extends ViewModelProps | undefined = undefined
 > = P extends {} ? ViewModelWithProps<P> : BaseViewModel;
 
-// Базовый интерфейс view-модели
+// Base view-model interface
 interface BaseViewModel {
   dispose?: () => void;
   init?: () => void;
 }
 
-// Интерфейс view-модели с реактивными Props из View
+// View-model interface with reactive Props from React component
 export type ViewModelProps = {};
 export interface ViewModelWithProps<P extends ViewModelProps>
   extends BaseViewModel {
-  // В моделях для props используем строго @observable.ref!
-  // В реакт-компонентах объект props всегда имеет новую ссылку.
-  // @observable.deep очень дорогой + крашится на Decimal-объектах в рантайме.
+  // You should use @observable.ref for props in your view-model classes
   props: P;
 }
 

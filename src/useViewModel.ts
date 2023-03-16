@@ -41,7 +41,7 @@ export function useViewModel<T extends IViewModel<P>, P extends ViewModelProps>(
   viewModelClass: IViewModelClass<T, P>,
   props?: P
 ): T {
-  // Инстанцируем view-модель один раз на Mount с помощью класса
+  // Instance view-model only once on Mount via class
   const [viewModel] = useState(() =>
     props
       ? new viewModelClass(props)
@@ -63,7 +63,7 @@ export function useViewModelFactory<T extends IViewModel<P>, P extends {}>(
   factory: (props?: P) => T,
   props?: P
 ): T {
-  // Инстанцируем view-модель один раз на Mount c помощью фабрики
+  // Instance view-model only once on Mount via factory-function
   const [viewModel] = useState(() => factory(props));
   useViewModelInternal(viewModel, props);
 

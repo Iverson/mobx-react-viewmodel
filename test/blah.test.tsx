@@ -1,6 +1,7 @@
 import { render } from '@testing-library/react';
 
 import * as useViewModelStories from '../stories/useViewModel.stories';
+import React from 'react';
 import * as useViewModelFactoryStories from '../stories/useViewModelFactory.stories';
 
 describe('Thing', () => {

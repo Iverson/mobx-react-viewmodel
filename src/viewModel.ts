@@ -17,8 +17,6 @@ export abstract class ViewModel<
     makeObservable(this);
   }
 
-  init() {}
-
   dispose() {
     this.disposers.forEach(dispose => dispose());
   }
