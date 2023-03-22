@@ -45,11 +45,11 @@
   "size-limit": [
     {
       "path": "dist/mobx-react-viewmodel.cjs.production.min.js",
-      "limit": "10 KB"
+      "limit": "4 KB"
     },
     {
       "path": "dist/mobx-react-viewmodel.esm.js",
-      "limit": "10 KB"
+      "limit": "1 KB"
     }
   ],
   "devDependencies": {
