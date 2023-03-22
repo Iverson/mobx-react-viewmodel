@@ -127,10 +127,14 @@ class MyPageViewModel extends ViewModel<MyPageViewModelProps> {
 import { observer } from 'mobx-react'
 import { useViewModel } from 'mobx-react-viewmodel'
 import { useParams } from 'react-router-dom';
+import { useStores } from 'our/stores/path';
 
 const MyPage = observer(() => {
   // Get the userId param from the URL.
   const { userId } = useParams();
+  // Get our custom store from hook or context
+  const { userStore } = useStores();
+  
   const viewModel = useViewModelFactory(
     props => new MyPageViewModel(props, userStore), // Factory-function will be called only once on first render
     { userId } // These `props` are reactive. It will be passed and updated in view-model every time it changes without creating new instance of view-model 
