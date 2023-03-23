@@ -20,7 +20,7 @@ yarn add mobx-react-viewmodel
 
 ## Simple Example
 
-```typescript
+```tsx
 import { observer } from 'mobx-react'
 import { useViewModel } from 'mobx-react-viewmodel'
 
@@ -128,7 +128,7 @@ class MyPageViewModel extends ViewModel<MyPageViewModelProps> {
 }
 ```
 
-```typescript
+```tsx
 // MyPage.tsx
 
 import { observer } from 'mobx-react'
@@ -146,6 +146,13 @@ const MyPage = observer(() => {
     props => new MyPageViewModel(props, userStore), // Factory-function will be called only once on first render
     { userId } // These `props` are reactive. It will be passed and updated in view-model every time it changes without creating new instance of view-model 
   );
+  
+  //** or
+  // const viewModel = useViewModel(
+  //    MyPageViewModel, 
+  //   { userId },
+  //   [userStore] // Extra dependencies for the view-model constructor
+  // );
 
   return (
     <div>

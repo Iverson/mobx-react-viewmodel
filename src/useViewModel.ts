@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { comparer, runInAction } from 'mobx';
-import { IViewModel, IViewModelClass, ViewModelProps } from './typings';
+import { IViewModel, IViewModelClass, ViewModelProps, ViewModelCtx } from './typings';
 
 /// ------------------------------------------
 // Hooks
@@ -9,7 +9,7 @@ type AnyModel = {};
 
 function useViewModelInternal<P extends ViewModelProps>(
   viewModel: IViewModel<P>,
-  props?: P
+  props?: P,
 ): void {
   useEffect(() => {
     if (props && !comparer.shallow(props, viewModel.props)) {
@@ -28,24 +28,32 @@ function useViewModelInternal<P extends ViewModelProps>(
 }
 
 export function useViewModel<T extends AnyModel>(viewModelClass: {
-  new (): T;
+  new(): T;
 }): T;
 export function useViewModel<T extends IViewModel>(
-  viewModelClass: IViewModelClass<T>
+  viewModelClass: IViewModelClass<T>,
 ): T;
 export function useViewModel<T extends IViewModel<P>, P extends ViewModelProps>(
   viewModelClass: IViewModelClass<T, P>,
-  props: P
+  props: P,
 ): T;
-export function useViewModel<T extends IViewModel<P>, P extends ViewModelProps>(
-  viewModelClass: IViewModelClass<T, P>,
-  props?: P
+export function useViewModel<T extends IViewModel<P>, P extends ViewModelProps, CTX extends ViewModelCtx>(
+  viewModelClass: IViewModelClass<T, P, CTX>,
+  props: P,
+  ctx: CTX,
+): T;
+export function useViewModel<T extends IViewModel<P>, P extends ViewModelProps, CTX extends ViewModelCtx>(
+  viewModelClass: IViewModelClass<T, P, CTX>,
+  props?: P,
+  ctx?: CTX,
 ): T {
   // Instance view-model only once on Mount via class
   const [viewModel] = useState(() =>
     props
-      ? new viewModelClass(props)
-      : new (viewModelClass as IViewModelClass<T>)()
+      ? Array.isArray(ctx)
+        ? new viewModelClass(props, ...ctx)
+        : new viewModelClass(props)
+      : new (viewModelClass as IViewModelClass<T>)(),
   );
   useViewModelInternal(viewModel, props);
 
@@ -53,15 +61,15 @@ export function useViewModel<T extends IViewModel<P>, P extends ViewModelProps>(
 }
 
 export function useViewModelFactory<T extends IViewModel | AnyModel>(
-  factory: () => T
+  factory: () => T,
 ): T;
 export function useViewModelFactory<T extends IViewModel<P>, P extends {}>(
   factory: (props: P) => T,
-  props: P
+  props: P,
 ): T;
 export function useViewModelFactory<T extends IViewModel<P>, P extends {}>(
   factory: (props?: P) => T,
-  props?: P
+  props?: P,
 ): T {
   // Instance view-model only once on Mount via factory-function
   const [viewModel] = useState(() => factory(props));
