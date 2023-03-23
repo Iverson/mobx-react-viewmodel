@@ -81,7 +81,9 @@ class MyPageViewModel extends ViewModel<MyPageViewModelProps> {
   constructor(props: MyPageViewModelProps, private usersStore: UsersStore) {
     super(props);
     makeObservable(this);
-
+  }
+  // is invoked immediately after a component is mounted 
+  init(){
     this.disposers.push(
       reaction(
         () => this.props.userId,
@@ -89,6 +91,11 @@ class MyPageViewModel extends ViewModel<MyPageViewModelProps> {
         { fireImmediately: true }
       )
     );
+  }
+  // is invoked immediately before a component is unmounted and destroyed
+  dispose() {
+    super.dispose();
+    this.user = undefined;
   }
 
   @action
