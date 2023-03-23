@@ -40,6 +40,10 @@
       "prettier --write"
     ]
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Iverson/mobx-react-viewmodel"
+  },
   "author": "Alexey Krasman",
   "module": "dist/mobx-react-viewmodel.esm.js",
   "size-limit": [
