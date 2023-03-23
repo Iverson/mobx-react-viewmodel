@@ -16,6 +16,7 @@
     "build": "tsdx build",
     "test": "tsdx test --passWithNoTests",
     "lint": "tsdx lint",
+    "lint-staged": "lint-staged",
     "prepare": "tsdx build",
     "size": "size-limit",
     "analyze": "size-limit --why",
@@ -36,8 +37,8 @@
   },
   "lint-staged": {
     "*.ts*": [
-      "tsdx lint",
-      "prettier --write"
+      "prettier --config .prettierrc --write",
+      "tsdx lint"
     ]
   },
   "repository": {
@@ -74,6 +75,7 @@
     "@types/react-dom": "^18.0.11",
     "babel-loader": "^9.1.2",
     "husky": "^8.0.3",
+    "lint-staged": "^13.2.0",
     "mobx": "^6.8.0",
     "mobx-react": "^7.6.0",
     "react": "^18.2.0",
