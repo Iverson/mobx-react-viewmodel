@@ -14,7 +14,7 @@ interface BaseViewModel {
 
 // View-model interface with reactive Props from React component
 export type ViewModelProps = {};
-export type ViewModelCtx = Array<unknown>
+export type ViewModelArgs = Array<unknown>
 export interface ViewModelWithProps<P extends ViewModelProps>
   extends BaseViewModel {
   // You should use @observable.ref for props in your view-model classes
@@ -25,9 +25,9 @@ export interface ViewModelWithProps<P extends ViewModelProps>
 export type IViewModelClass<
   T extends IViewModel<P>,
   P extends ViewModelProps | undefined = undefined,
-  CTX extends ViewModelCtx = ViewModelCtx
+  Args extends ViewModelArgs = ViewModelArgs
 > = P extends {} //
-  ? CTX extends []
-    ? { new (props: P, ...ctx: CTX): T }
-    : { new (props: P, ...ctx: CTX): T } // HACK: this place should be { new (props: P): T }
+  ? Args extends []
+    ? { new (props: P, ...args: Args): T }
+    : { new (props: P, ...args: Args): T } // HACK: this place should be { new (props: P): T }
   : { new (): T }
