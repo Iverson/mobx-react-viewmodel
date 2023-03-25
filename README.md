@@ -20,7 +20,7 @@ yarn add mobx-react-viewmodel
 
 ## Simple Example
 
-```typescript
+```tsx
 import { observer } from 'mobx-react'
 import { useViewModel } from 'mobx-react-viewmodel'
 
@@ -81,7 +81,9 @@ class MyPageViewModel extends ViewModel<MyPageViewModelProps> {
   constructor(props: MyPageViewModelProps, private usersStore: UsersStore) {
     super(props);
     makeObservable(this);
-
+  }
+  // is invoked immediately after a component is mounted 
+  init(){
     this.disposers.push(
       reaction(
         () => this.props.userId,
@@ -89,6 +91,11 @@ class MyPageViewModel extends ViewModel<MyPageViewModelProps> {
         { fireImmediately: true }
       )
     );
+  }
+  // is invoked immediately before a component is unmounted and destroyed
+  dispose() {
+    super.dispose();
+    this.user = undefined;
   }
 
   @action
@@ -121,7 +128,7 @@ class MyPageViewModel extends ViewModel<MyPageViewModelProps> {
 }
 ```
 
-```typescript
+```tsx
 // MyPage.tsx
 
 import { observer } from 'mobx-react'
@@ -139,6 +146,13 @@ const MyPage = observer(() => {
     props => new MyPageViewModel(props, userStore), // Factory-function will be called only once on first render
     { userId } // These `props` are reactive. It will be passed and updated in view-model every time it changes without creating new instance of view-model 
   );
+  
+  //** or
+  // const viewModel = useViewModel(
+  //    MyPageViewModel, 
+  //   { userId },
+  //   [userStore] // Extra dependencies for the view-model constructor
+  // );
 
   return (
     <div>
@@ -166,10 +180,11 @@ You can find more examples [here](https://iverson.github.io/mobx-react-viewmodel
 
 ## API documentation
 
-### `useViewModel(ViewModelClass, props?)`
+### `useViewModel(ViewModelClass, props?, args?)`
 
 Basic hook that creates an instance of the `ViewModelClass` on the first render and keeps it alive during all further renders.
 If `props` is passed, it will be set to the ViewModelClass instance `props` property every time it changes.
+If `args` is passed, it will be passed to the ViewModelClass constructor on the first render. You should use only permanent references to the object there, for example, a reference to singleton objects.
 If `ViewModelClass` implements `init()` or `dispose()` methods, they will be called on the component's `mount` and `unmount` events. 
 
 ### `useViewModelFactory(factoryFn, props?)`
