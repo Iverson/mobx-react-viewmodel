@@ -184,7 +184,7 @@ You can find more examples [here](https://iverson.github.io/mobx-react-viewmodel
 
 Basic hook that creates an instance of the `ViewModelClass` on the first render and keeps it alive during all further renders.
 If `props` is passed, it will be set to the ViewModelClass instance `props` property every time it changes.
-If `args` is passed, it will be passed to the ViewModelClass constructor ons the first render. you should give only permanent references to the object there, for example, a reference to singleton objects.
+If `args` is passed, it will be passed to the ViewModelClass constructor on the first render. You should use only permanent references to the object there, for example, a reference to singleton objects.
 If `ViewModelClass` implements `init()` or `dispose()` methods, they will be called on the component's `mount` and `unmount` events. 
 
 ### `useViewModelFactory(factoryFn, props?)`
