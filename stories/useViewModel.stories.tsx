@@ -737,7 +737,6 @@ const AdvancedDIExample = observer(function AdvancedDIExample$() {
     AdvancedDIViewModel,
     { userId: 'user-1-id' },
     [userStore]
-
   );
 
   return (

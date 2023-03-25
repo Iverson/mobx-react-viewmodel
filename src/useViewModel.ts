@@ -32,6 +32,14 @@ function useViewModelInternal<P extends ViewModelProps>(
   }, [viewModel]);
 }
 
+/**
+ * Hook for using view-models in React components
+ * @argument viewModelClass - class of view-model
+ * @argument props - props for view-model
+ * @argument args - additional arguments for view-model
+ * @returns instance of view-model
+ * @param viewModelClass
+ */
 export function useViewModel<T extends AnyModel>(viewModelClass: {
   new (): T;
 }): T;
